@@ -22,7 +22,7 @@ import time
 from psychopy.hardware import brainproducts
 
 # Host, (Port), Timeout, (Testmode)
-rcs = brainproducts.RemoteControlServer(host='10.101.52.47', port=6700)
+rcs = brainproducts.RemoteControlServer(host='10.101.52.11', port=6700)
 #rcs = brainproducts.RemoteControlServer()
 
 # Provide Experiment number/name, Workspace (full path and name), Subject ID
@@ -43,7 +43,7 @@ time.sleep(20)
 #rcs.dcReset()
 
 # Start recording
-rcs.sendRaw('S')
+# rcs.sendRaw('S')
 
 # Ensure that relative paths start from the same directory as this script
 _thisDir = os.path.dirname(os.path.abspath(__file__))
@@ -87,7 +87,7 @@ win = visual.Window(
     monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
     units='height')
-win.mouseVisible = False
+win.mouseVisible = True
 # store frame rate of monitor if we can measure it
 expInfo['frameRate'] = win.getActualFrameRate()
 if expInfo['frameRate'] != None:
