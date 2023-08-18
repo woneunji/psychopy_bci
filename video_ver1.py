@@ -22,7 +22,7 @@ import time
 from psychopy.hardware import brainproducts
 
 # Host, (Port), Timeout, (Testmode)
-rcs = brainproducts.RemoteControlServer(host='10.101.52.11', port=6700)
+rcs = brainproducts.RemoteControlServer(host='10.101.52.24', port=6700)
 #rcs = brainproducts.RemoteControlServer()
 
 # Provide Experiment number/name, Workspace (full path and name), Subject ID
@@ -111,7 +111,7 @@ defaultKeyboard = keyboard.Keyboard(backend='iohub')
 
 # --- Initialize components for Routine "start" ---
 text = visual.TextStim(win=win, name='text',
-    text='실험에 참여해주셔서 감사합니다.\n\n본 실험 동안 화면에 제시되는 영상을 응시해 주시고,\n 타겟이 보이면 즉시 응답해주세요.\n\n타겟 위치에 따라 1(왼쪽 위), 2(오른쪽 위), 3(왼쪽 아래), 4(오른쪽 아래)를 눌러주세요.\n\n시작하려면 스페이스 바를 눌러주세요.',
+    text='실험에 참여해주셔서 감사합니다.\n\n본 실험 동안 화면에 제시되는 영상을 응시해 주시고,\n 타겟이 보이면 즉시 응답해주세요.\n\n타겟의 종류에 따라 T(Target) 또는 N(Non-Target), 헷갈릴 경우에는 A(Ambiguous)를 눌러주세요.\n\n시작하려면 스페이스 바를 눌러주세요.',
     font='Arial',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -261,11 +261,18 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 i = 0
-
+d = 0 
+time_list = [1.5, 2.7, 3.3]
 # --- Run Routine "main" ---
 while continueRoutine:
     # get current time
     t = routineTimer.getTime()
+    tt = (np.trunc(t*10)/10)
+    if tt in time_list:
+        if (d != tt): # for non-duplicate
+            rcs.sendAnnotation("trigger", "stimulus")
+            d = tt
+    #print('d: ', d, 'tt: ', tt)
     tThisFlip = win.getFutureFlipTime(clock=routineTimer)
     tThisFlipGlobal = win.getFutureFlipTime(clock=None)
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
